@@ -1,0 +1,52 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.validation-summary-errors {
+    background-color: #f8d7da; /* Hafif kırmızı arka plan */
+    border: 1px solid #f5c6cb; /* Kenar için daha koyu kırmızı ton */
+    color: #721c24; /* Yazı rengi için koyu kırmızı */
+    border-radius: 5px; /* Kenarların yumuşatılması */
+    padding: 15px; /* İçerik etrafında boşluk */
+    margin: 10px 0; /* Üst ve alt boşluk */
+    font-family: 'Arial', sans-serif; /* Modern ve temiz bir font */
+    font-size: 14px; /* Yazı boyutu */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hafif bir gölge */
+    max-width: 625px; /* Maksimum genişlik */
+    width: 90%; /* Daha küçük ekranlarda uyum sağlama */
+}
+
+    .validation-summary-errors ul {
+        list-style: none; /* Madde işaretlerini kaldır */
+        padding: 0; /* İçerik kenar boşluklarını kaldır */
+        margin: 0;
+    }
+
+    .validation-summary-errors li {
+        margin: 5px 0; /* Her liste öğesi arasında boşluk */
+    }
+
+        .validation-summary-errors li::before {
+            content: "⚠️"; /* Uyarı ikonu ekle */
+            margin-right: 8px; /* İkon ile metin arasına boşluk ekle */
+            color: #721c24; /* İkonun rengini yazı ile uyumlu yap */
+        }
