@@ -28,9 +28,9 @@
                 <label class="form-label small">Profile Image<span class="badge bg-danger ms-2">Required</span></label>
                 <input type="file" name="file" class="form-control" accept="png" />
                 @* <div class="text-secondary">
-                    <span class="small">
-                        <i class="fa fa-info-cicrle me-2"></i>Only png files.
-                    </span>
+                <span class="small">
+                <i class="fa fa-info-cicrle me-2"></i>Only png files.
+                </span>
                 </div> *@
                 <div class="text-center mt-3">
 
@@ -48,7 +48,7 @@
             <h2>Settings</h2>
             <hr />
             <p class="small">
-                Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, 
+                Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod,
                 iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.
             </p>
         </div>
@@ -66,7 +66,7 @@
         </form>
 
         <form method="post" asp-action="ProfileChangePassword">
-            <div class="form-group ">
+            <div class="form-group">
                 <label class="form-label small">Name Password<span class="badge bg-danger ms-2">Required</span></label>
                 <div class="input-group">
 
@@ -81,6 +81,18 @@
 
         </form>
 
+        <div class="form-group">
+            <div class="form-container">
+                <label class="form-label small">API Token<span class="badge bg-danger ms-2">Required</span></label>
+                <div>
+                    <textarea id="token" class="form-group" rows="5" readonly>@ViewContext.HttpContext.Request.Cookies[".WebApplicationTest.auth"]</textarea>
+                    <p>Note : Use Cookie Authentication<span class="badge bg-secondary ms-5 cursor-pointer" onclick="copyTo()">Copy to clipboard</span></p>
+                    <p class="alert alert-info"> Headers &gt; Cookie &gt; .WebApplicationTest.auth=[token]</p>
+
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </div>
@@ -91,4 +103,14 @@
             toastr["success"]("Şifreniz değiştirilmiştir.", "Şifre değişti!")
         </script>
     }
+
+    <script>
+        function copyTo(){
+            var txt = document.getElementById("token");
+            txt.select();
+            navigator.clipboard.writeText(txt.value);
+            txt.setSelectionRange(0,0);
+            toastr.success("Token Copied.","Copied")
+        }
+    </script>
 }

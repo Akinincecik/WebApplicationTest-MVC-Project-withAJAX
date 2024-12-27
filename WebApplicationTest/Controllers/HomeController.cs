@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplicationTest.Models;
+using WebApplicationTest.Models.APIModels;
 
 namespace WebApplicationTest.Controllers
 {
@@ -30,6 +31,18 @@ namespace WebApplicationTest.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult GetData()
+        {
+            return Json(new { Name = "Eyuq Can", Surname = "Vahit" });
+        }
+
+        [HttpPost]
+        public IActionResult PostData([FromBody]PostData  model)
+        {
+            return Json(new { Error = false, Message = "Success" });
         }
     }
 }

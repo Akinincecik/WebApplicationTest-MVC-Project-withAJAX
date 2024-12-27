@@ -21,6 +21,24 @@ body {
   margin-bottom: 60px;
 }
 
+.form-container {
+    width: 100%; /* Kapsayıcının genişliği */
+    /*height: 200px;*/ /* Belirli bir yükseklik (ihtiyaca göre değiştirilebilir) */
+    position: relative; /* Textarea'yı konumlandırmak için gerekli */
+}
+
+.form-group {
+    width: 100%; /* Kapsayıcının tamamını kapla */
+    /*height: 100%;*/ /* Kapsayıcının yüksekliğini doldur */
+    border: 1px solid #ccc; /* Hafif bir çerçeve */
+    box-sizing: border-box; /* Kenarlık ve dolgu dahil */
+    resize: none; /* Kullanıcının yeniden boyutlandırmasını engelle */
+    font-family: Arial, sans-serif; /* Yazı tipi ayarı */
+    font-size: 14px; /* Yazı boyutu */
+    padding: 10px; /* İçerik için boşluk */
+}
+
+
 .validation-summary-errors {
     background-color: #f8d7da; /* Hafif kırmızı arka plan */
     border: 1px solid #f5c6cb; /* Kenar için daha koyu kırmızı ton */
@@ -50,3 +68,20 @@ body {
             margin-right: 8px; /* İkon ile metin arasına boşluk ekle */
             color: #721c24; /* İkonun rengini yazı ile uyumlu yap */
         }
+
+.cursor-pointer {
+    cursor: pointer; /* İmleci el simgesine çevir */
+    transition: all 0.3s ease; /* Hover efektleri için yumuşak geçiş */
+}
+
+    .cursor-pointer:hover {
+        /*color: #007bff;*/ /* Üzerine gelindiğinde metin rengi (mavi ton) */
+        text-decoration: underline; /* Alt çizgi efekti */
+        transform: scale(1.05); /* Hafifçe büyüt */
+    }
+
+    .cursor-pointer:active {
+        color: #0056b3; /* Tıklanırken daha koyu bir mavi */
+        transform: scale(0.98); /* Hafifçe küçült (basma hissi) */
+        /*opacity: 0.8;*/ /* Tıklama anında hafif saydamlık */
+    }
