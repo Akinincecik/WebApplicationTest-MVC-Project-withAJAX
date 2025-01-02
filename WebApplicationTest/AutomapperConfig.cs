@@ -8,9 +8,12 @@ namespace WebApplicationTest
     {
         public AutomapperConfig()
         {
-            CreateMap<User, UserViewModels>().ReverseMap();
-            CreateMap<User, CreateUserModel>().ReverseMap();
-            CreateMap<User, EditUserModel>().ReverseMap();
+            CreateMap<User, UserViewModel>().ReverseMap();
+            CreateMap<User, CreateUserViewModel>().ReverseMap();
+            CreateMap<User, EditUserViewModel>().ReverseMap();
+            CreateMap<StudentInfo, StudentViewModel>().ReverseMap();
+            CreateMap<StudentInfo, CreateStudentViewModel>().ReverseMap();
+            CreateMap<StudentInfo, EditStudentViewModel>().ReverseMap();
 
         }
     }

@@ -10,5 +10,6 @@ namespace WebApplicationTest.Entities
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<StudentInfo> StudentInformations { get; set; }
     }
 }

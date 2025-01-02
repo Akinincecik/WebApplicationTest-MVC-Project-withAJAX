@@ -21,9 +21,9 @@ namespace WebApplicationTest.Controllers
 
         public IActionResult Index()
         {
-            List<UserViewModels> users =
+            List<UserViewModel> users =
                 _dataBaseContext.Users.ToList()
-                .Select(x => _mapper.Map<UserViewModels>(x)).ToList();
+                .Select(x => _mapper.Map<UserViewModel>(x)).ToList();
 
             return View(users);
         }
@@ -36,7 +36,7 @@ namespace WebApplicationTest.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateUserModel model)
+        public IActionResult Create(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -61,13 +61,13 @@ namespace WebApplicationTest.Controllers
         public IActionResult Edit(Guid Id)
         {
             User user = _dataBaseContext.Users.Find(Id);
-            EditUserModel model = _mapper.Map<EditUserModel>(user);
+            EditUserViewModel model = _mapper.Map<EditUserViewModel>(user);
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(Guid Id, EditUserModel model)
+        public IActionResult Edit(Guid Id, EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {

@@ -19,10 +19,11 @@ namespace WebApplicationTest.Controllers
         private readonly IConfiguration _configuration;
         private readonly IHasher _hasher;
 
-        public AccountController(DataBaseContext dataBaseContext, IConfiguration configuration)
+        public AccountController(DataBaseContext dataBaseContext, IConfiguration configuration, IHasher hasher)
         {
             _dataBaseContext = dataBaseContext;
             _configuration = configuration;
+            _hasher = hasher;
         }
 
         [AllowAnonymous]
@@ -37,9 +38,10 @@ namespace WebApplicationTest.Controllers
         {
             if (ModelState.IsValid)
             {
-                string hashedPassword = _hasher.DoMD5HashedString(model.Password);
+                string hashed = _hasher.DoMD5HashedString(model.Password);
 
-                User user = _dataBaseContext.Users.SingleOrDefault(x => x.Username.ToLower() == model.Username.ToLower() && x.Password == hashedPassword);
+                User user = _dataBaseContext.Users.SingleOrDefault(x => x.Username.ToLower() == model.Username.ToLower() && x.Password == hashed);
+                StudentInfo student = _dataBaseContext.StudentInformations.SingleOrDefault(x => x.FullName.ToLower() == model.Username.ToLower() && x.Password == hashed);
 
                 if (user != null)
                 {
@@ -54,6 +56,28 @@ namespace WebApplicationTest.Controllers
                     claims.Add(new Claim(ClaimTypes.Name, user.FullName ?? string.Empty));
                     claims.Add(new Claim(ClaimTypes.Role, user.Role));
                     claims.Add(new Claim("Username", user.Username));
+
+                    ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else if(student != null)
+                {
+                    if (student.Locked)
+                    {
+                        ModelState.AddModelError(nameof(model.Username), "User locked");
+                        return View(model);
+                    }
+
+                    List<Claim> claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.NameIdentifier, student.Id.ToString()));
+                    claims.Add(new Claim(ClaimTypes.Name, student.FullName ?? string.Empty));
+                    claims.Add(new Claim(ClaimTypes.Role, student.Role));
+                    claims.Add(new Claim("Username", student.FullName));
 
                     ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -91,12 +115,12 @@ namespace WebApplicationTest.Controllers
                     return View(model);
                 }
 
-                string hashedPassword = _hasher.DoMD5HashedString(model.Password);
+                string hashed = _hasher.DoMD5HashedString(model.Password);
 
                 User user = new()
                 {
                     Username = model.Username,
-                    Password = hashedPassword
+                    Password = hashed
                 };
 
                 _dataBaseContext.Users.Add(user);

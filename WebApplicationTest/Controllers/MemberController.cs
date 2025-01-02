@@ -26,9 +26,9 @@ namespace WebApplicationTest.Controllers
 
         public IActionResult MemberListPartial()
         {
-            List<UserViewModels> users =
+            List<UserViewModel> users =
                 _dataBaseContext.Users.ToList()
-                .Select(x => _mapper.Map<UserViewModels>(x)).ToList();
+                .Select(x => _mapper.Map<UserViewModel>(x)).ToList();
 
             return PartialView("_MemberlistPartial", users);
         }
@@ -36,11 +36,11 @@ namespace WebApplicationTest.Controllers
 
         public IActionResult AddNewUserPartial()
         {
-            return PartialView("_AddNewUserPartial", new CreateUserModel());
+            return PartialView("_AddNewUserPartial", new CreateUserViewModel());
         }
 
         [HttpPost]
-        public IActionResult AddNewUser(CreateUserModel model)
+        public IActionResult AddNewUser(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -56,7 +56,7 @@ namespace WebApplicationTest.Controllers
                 _dataBaseContext.Users.Add(user);
                 _dataBaseContext.SaveChanges();
 
-                return PartialView("_AddNewUserPartial", new CreateUserModel { Done = "User added." });
+                return PartialView("_AddNewUserPartial", new CreateUserViewModel { Done = "User added." });
             }
 
             return PartialView("_AddNewUserPartial", model);
@@ -65,13 +65,13 @@ namespace WebApplicationTest.Controllers
         public IActionResult EditUserPartial(Guid Id)
         {
             User user = _dataBaseContext.Users.Find(Id);
-            EditUserModel model = _mapper.Map<EditUserModel>(user);
+            EditUserViewModel model = _mapper.Map<EditUserViewModel>(user);
 
             return PartialView("_EditUserPartial", model);
         }
 
         [HttpPost]
-        public IActionResult EditUser(Guid Id, EditUserModel model)
+        public IActionResult EditUser(Guid Id, EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace WebApplicationTest.Controllers
                 _mapper.Map(model, user);
                 _dataBaseContext.SaveChanges();
 
-                return PartialView("_EditUserPartial", new EditUserModel { Done = "User added." });
+                return PartialView("_EditUserPartial", new EditUserViewModel { Done = "User added." });
             }
 
             return PartialView("_EditUserPartial", model);

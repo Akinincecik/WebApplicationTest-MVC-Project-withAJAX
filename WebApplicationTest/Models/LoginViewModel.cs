@@ -14,5 +14,7 @@ namespace WebApplicationTest.Models
         [MaxLength(16, ErrorMessage = "Password needs to be less than 16 character.")]
         [MinLength(6, ErrorMessage = "Password needs to be at least 6 character.")]
         public string Password { get; set; }
+
+
     }
 }

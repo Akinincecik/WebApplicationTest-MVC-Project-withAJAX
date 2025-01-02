@@ -1,9 +1,69 @@
-﻿@model List<UserViewModel>
+﻿@model List<StudentViewModel>
+@* @{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col">
+        <h1 class="Display-4">@ViewData["Title"]</h1>
+        <hr />
+    </div>
+</div> *@
+
+@* <div class="row mb-3">
+    <div class="col">
+        <a asp-action="Create" class="btn btn-primary btn-sm"><i class="fa fa-plus me-2"></i>New User</a>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col">
+        <table class="table tabler-hover table-sm">
+            <thead>
+                <tr>
+                    <th>FullName</th>
+                    <th>Username</th>
+                    <th>Locked</th>
+                    <th>Role</th>
+                    <th>CreatedAt</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (StudentViewModel user in Model)
+                {
+                    <tr>
+                        <td>@user.FullName</td>
+                        <td>@user.Surname</td>
+                        <td>
+                            @if (user.Locked)
+                            {
+                                <i class="fa fa-check text-success"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-times text-danger"></i>
+                            }
+                        </td>
+                        <td>@user.Role</td>
+                        <td>@user.CreatedAt</td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-info btn-sm"><i class="fa fa-edit me-2"></i>Edit</a>
+                            <a asp-action="Delete" asp-route-id="@user.Id"
+                               onclick="return confirm('Are you sure want to delete this user : @user.Surname ?')"
+                               class="btn btn-danger btn-sm"><i class="fa fa-trash me-2"></i>Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> *@
+
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
-       
-
+        
         <!--begin::App Main-->
         <main class="app-main">
             <!--begin::App Content Header-->
@@ -13,73 +73,65 @@
                     <!--begin::Row-->
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3 class="mb-0">Users</h3>
+                            <h3 class="mb-0">Students</h3>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    Users
+                                    Students
                                 </li>
                             </ol>
                         </div>
                     </div> <!--end::Row-->
                 </div> <!--end::Container-->
             </div> <!--end::App Content Header-->
-
             <!--begin::App Content-->
-            <div class ="app-content">
+            <div class="app-content">
                 <!--begin::Container-->
                 <div class="container-fluid">
                     <div class="row mb-3">
                         <div class="col">
-                            <a asp-action="Create" class="btn btn-primary btn-sm"><i class="fa fa-plus me-2"></i>New User</a>
+                            <a asp-action="AddNewStudentPartial" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAdd" data-ajax="true"
+                               data-ajax-method="get" data-ajax-update="#modalAddContent"><i class="fa fa-plus me-2"></i>Create Student</a>
+
+                            <a id="refresh" asp-action="StudentListPartial" data-ajax="true" data-ajax-method="get" data-ajax-update="#panel"
+                               class="btn btn-secondary btn-sm"><i class="fa fa-sync-alt me-2"></i>Reload</a>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col">
-                            <table class="table tabler-hover table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>FullName</th>
-                                        <th>Username</th>
-                                        <th>Locked</th>
-                                        <th>Role</th>
-                                        <th>CreatedAt</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (UserViewModel user in Model)
-                                    {
-                                        <tr>
-                                            <td>@user.FullName</td>
-                                            <td>@user.Username</td>
-                                            <td>
-                                                @if (user.Locked)
-                                                {
-                                                    <i class="fa fa-check text-success"></i>
-                                                }
-                                                else
-                                                {
-                                                    <i class="fa fa-times text-danger"></i>
-                                                }
-                                            </td>
-                                            <td>@user.Role</td>
-                                            <td>@user.CreatedAt</td>
-                                            <td class="text-end">
-                                                <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-info btn-sm"><i class="fa fa-edit me-2"></i>Edit</a>
-                                                <a asp-action="Delete" asp-route-id="@user.Id"
-                                                   onclick="return confirm('Are you sure want to delete this user : @user.Username ?')"
-                                                   class="btn btn-danger btn-sm"><i class="fa fa-trash me-2"></i>Remove</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                            <div id="panel">
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalAdd" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div id="modalAddContent" class="modal-content">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalEdit" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div id="modalEditContent" class="modal-content">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @section Scripts {
+                        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+                        <script>
+                            $(function () {
+                                refresh.click();
+                            });
+                        </script>
+                    }
                 </div>
             </div>
         </main>
@@ -299,4 +351,5 @@
         sparkline3.render();
     </script> <!--end::Script-->
 </body>
+
 
